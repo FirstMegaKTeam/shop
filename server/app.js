@@ -34,6 +34,7 @@ app.use(express.json())
 
 
 // routes
+app.use('/', buyRouter)
 
 
 
