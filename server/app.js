@@ -1,4 +1,4 @@
-// dependenci
+// dependenciss
 const dotenv = require('dotenv');
 dotenv.config({ path: '.env' });
 const express = require('express')
