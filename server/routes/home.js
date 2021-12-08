@@ -4,7 +4,7 @@ const homeRouter = express.Router()
 
 
 homeRouter.get("/", (req,res,next)=>{
-   res.json('siema');
+   res.json('witam');
 });
 
 module.exports = {
