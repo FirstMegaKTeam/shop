@@ -6,7 +6,7 @@ const { User } = require('../DB/models/index');
 const userSettingsRouter = express.Router();
 
 userSettingsRouter
-  .post('/', async (req, res, next) => {
+  .patch('/', async (req, res, next) => {
     const {
       id, name, lastName, age, email, password,
     } = req.body;
@@ -30,7 +30,8 @@ userSettingsRouter
       console.log(e);
       res.json('Error ;)');
     }
-  });
+  })
+
 
 module.exports = {
   userSettingsRouter,
