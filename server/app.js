@@ -31,6 +31,8 @@ app.use(express.json());
 // routes
 app.use('/buy', buyRouter);
 app.use('/admin/users', usersManagementRouter);
+app.use('/register', registerRouter);
+app.use('/user/settings', userSettingsRouter);
 
 app.listen(port, 'localhost', async () => {
   console.log(`Server listen on http://localhost:${port}`);
