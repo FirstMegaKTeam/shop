@@ -34,12 +34,11 @@ app.use('/admin/users', usersManagementRouter);
 
 app.listen(port, 'localhost', async () => {
   console.log(`Server listen on http://localhost:${port}`);
-  // await sequelize.authenticate();
+  await sequelize.authenticate();
   console.log('Connect with DB');
 });
 
-async function main() {
-  await sequelize.sync({ force: true });
-
-}
-main();
+// async function main() {
+//   await sequelize.sync({ force: true });
+// }
+// main();

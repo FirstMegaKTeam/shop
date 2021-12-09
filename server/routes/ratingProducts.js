@@ -1,8 +1,7 @@
 const express = require('express');
 
-const ratingRouter = express.Router()
-
+const ratingRouter = express.Router();
 
 module.exports = {
-   ratingRouter
-}
+  ratingRouter,
+};

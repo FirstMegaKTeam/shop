@@ -1,8 +1,7 @@
 const express = require('express');
 
-const userSettingsRouter = express.Router()
-
+const userSettingsRouter = express.Router();
 
 module.exports = {
   userSettingsRouter,
-}
+};

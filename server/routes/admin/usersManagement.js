@@ -25,7 +25,7 @@ usersManagementRouter
         throw new Error('User dont exist');
       }
       user.name = name || user.name;
-      user.last_name = lastName || user.last_name; //TODO Change name column
+      user.last_name = lastName || user.last_name; // TODO Change name column
       user.age = age || user.age;
       user.email = email || user.email;
       user.activate = activate || user.activate;
@@ -37,6 +37,21 @@ usersManagementRouter
       }
       const responseDB = user.save();
       res.json(user);
+    } catch (e) {
+      console.log(e);
+      res.json('Error ;)');
+    }
+  })
+  .delete('/', async (req, res, next) => {
+    const { id } = req.body;
+
+    try {
+      const user = await User.findOne({
+        where: { id },
+      });
+
+      const deletedUser = await user.destroy();
+      res.json(deletedUser);
     } catch (e) {
       console.log(e);
       res.json('Error ;)');

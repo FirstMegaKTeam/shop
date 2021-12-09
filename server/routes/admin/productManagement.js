@@ -1,8 +1,7 @@
 const express = require('express');
 
-const productManagementRouter = express.Router()
-
+const productManagementRouter = express.Router();
 
 module.exports = {
-   productManagementRouter,
-}
+  productManagementRouter,
+};

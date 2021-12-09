@@ -1,8 +1,7 @@
 const express = require('express');
 
-const homeRouter = express.Router()
-
+const homeRouter = express.Router();
 
 module.exports = {
-   homeRouter,
-}
+  homeRouter,
+};

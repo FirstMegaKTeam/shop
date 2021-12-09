@@ -1,8 +1,7 @@
 const express = require('express');
 
-const purchaseHistoryRouter = express.Router()
-
+const purchaseHistoryRouter = express.Router();
 
 module.exports = {
-   purchaseHistoryRouter,
-}
+  purchaseHistoryRouter,
+};
