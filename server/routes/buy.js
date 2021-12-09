@@ -1,8 +1,14 @@
 const express = require('express');
-const {select} = require("../utils/db");
 
-const buyRouter = express.Router()
+
+const buyRouter = express.Router();
+
+buyRouter.get('/', async (req, res, next) => {
+
+
+  res.json('odp');
+});
 
 module.exports = {
-   buyRouter,
-}
+  buyRouter,
+};
