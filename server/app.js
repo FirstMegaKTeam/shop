@@ -20,13 +20,19 @@ const { userSettingsRouter } = require('./routes/userSettings');
 const { logoutRouter } = require('./routes/loguot');
 const { addressRouter } = require('./routes/addsress');
 
+// Authorization require
+const { passport } = require('./config/authorization');
+const loginControler = require('./controllers/loginControler');
+
 // requires
+const { handleError } = require('./middleware/handleError');
 
 // different variable
 const app = express();
 const port = process.env.PORT || 5000;
 
 // Middleware
+app.use(passport.initialize());
 app.use(express.json());
 
 // routes
@@ -35,6 +41,11 @@ app.use('/admin/users', usersManagementRouter);
 app.use('/register', registerRouter);
 app.use('/user/settings', userSettingsRouter);
 app.use('/address', addressRouter);
+app.use('/login', loginControler, loginRouter);
+
+// handle Errors
+
+app.use(handleError);
 
 app.listen(port, 'localhost', async () => {
   console.log(`Server listen on http://localhost:${port}`);
