@@ -7,7 +7,6 @@ const usersManagementRouter = express.Router();
 
 usersManagementRouter
   .get('/', async (req, res, next) => {
-          console.log(req);
     try {
       const allUsers = await User.findAll();
       res.json(allUsers);
@@ -67,7 +66,7 @@ usersManagementRouter
       }
 
       const responseDB = user.save();
-      res.json(user);
+      res.json(usr);
     } catch (e) {
       console.log(e);
       res.json('Error ;)');

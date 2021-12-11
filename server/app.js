@@ -23,8 +23,10 @@ const { addressRouter } = require('./routes/addsress');
 
 // Authorization require
 const { passport } = require('./config/authorization');
-const loginControler = require('./controllers/loginControler');
-const accessUser = require('./controllers/accessUserControler');
+const loginController = require('./controllers/access/loginController');
+const accessUser = require('./controllers/access/accessUserController');
+const accessAdmin = require('./controllers/access/accessAdminController');
+const accessHeadAdmin = require('./controllers/access/accessHeadAdminController');
 
 // requires
 const { handleError } = require('./middleware/handleError');
@@ -41,11 +43,11 @@ app.use(express.json());
 
 // routes
 //
-app.use('/admin/users', accessUser, usersManagementRouter);
+app.use('/admin/users',accessHeadAdmin , usersManagementRouter);
 app.use('/register', registerRouter);
 app.use('/user/settings', userSettingsRouter);
 app.use('/address', addressRouter);
-app.use('/login', loginControler, loginRouter);
+app.use('/login', loginController, loginRouter);
 
 // handle Errors
 
