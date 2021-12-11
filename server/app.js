@@ -13,7 +13,7 @@ const { loginRouter } = require('./routes/loginRoutes');
 const { registerRouter } = require('./routes/registerRoutes');
 const { homeRouter } = require('./routes/homeRoutes');
 const { buyRouter } = require('./routes/buyRoutes');
-const { productsRouter } = require('./routes/productsRoutes');
+const { productsRouter } = require('./routes/searchProductsRoutes');
 const { purchaseHistoryRouter } = require('./routes/purchaseHistoryRoutes');
 const { messageRouter } = require('./routes/messagesRoutes');
 const { ratingRouter } = require('./routes/ratingProductsRoutes');
@@ -48,6 +48,7 @@ app.use('/register', registerRouter);
 app.use('/user/settings', userSettingsRouter);
 app.use('/address', addressRouter);
 app.use('/login', loginController, loginRouter);
+app.use('/products', productsRouter);
 
 // handle Errors
 
