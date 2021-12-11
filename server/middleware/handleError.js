@@ -1,4 +1,4 @@
-function handleError(er, req, res, next) {
+async function handleError(er, req, res, next) {
   const answer = {
     message: 'Sorry try later',
     status: 500,

@@ -10,7 +10,12 @@ const loginUser = async (req, res, next) => {
       { expiresIn: '1h' },
     );
 
-    res.cookie('jwt', token);
+    res.cookie('auth', token, {
+      // secure: true,
+      signed: true,
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60,
+    });
     res.json('cookie is set');
   } catch (e) {
     next(e);

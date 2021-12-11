@@ -30,16 +30,18 @@ const accessHeadAdmin = require('./controllers/access/accessHeadAdminController'
 
 // requires
 const { handleError } = require('./middleware/handleError');
+const { setHeader } = require('./middleware/setHeaderFromCookie');
 
 // different variable
 const app = express();
 const port = process.env.PORT || 5000;
 
 // Middleware
-
 app.use(passport.initialize());
-// app.use(cookieParser(process.env.COOKIE_SECRET));
+app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(express.json());
+
+app.use(setHeader);
 
 // routes
 //
@@ -49,6 +51,7 @@ app.use('/user/settings', userSettingsRouter);
 app.use('/address', addressRouter);
 app.use('/login', loginController, loginRouter);
 app.use('/products', productsRouter);
+app.use('/logout', logoutRouter);
 
 // handle Errors
 
