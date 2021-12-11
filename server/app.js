@@ -9,21 +9,21 @@ const { sequelize } = require('./DB/models/index');
 // require routes
 const { usersManagementRouter } = require('./routes/admin/usersManagement');
 const { productManagementRouter } = require('./routes/admin/productManagement');
-const { loginRouter } = require('./routes/login');
-const { registerRouter } = require('./routes/register');
-const { homeRouter } = require('./routes/home');
-const { buyRouter } = require('./routes/buy');
-const { productsRouter } = require('./routes/products');
-const { purchaseHistoryRouter } = require('./routes/purchaseHistory');
-const { messageRouter } = require('./routes/messages');
-const { ratingRouter } = require('./routes/ratingProducts');
-const { userSettingsRouter } = require('./routes/userSettings');
-const { logoutRouter } = require('./routes/loguot');
-const { addressRouter } = require('./routes/addsress');
+const { loginRouter } = require('./routes/loginRoutes');
+const { registerRouter } = require('./routes/registerRoutes');
+const { homeRouter } = require('./routes/homeRoutes');
+const { buyRouter } = require('./routes/buyRoutes');
+const { productsRouter } = require('./routes/productsRoutes');
+const { purchaseHistoryRouter } = require('./routes/purchaseHistoryRoutes');
+const { messageRouter } = require('./routes/messagesRoutes');
+const { ratingRouter } = require('./routes/ratingProductsRoutes');
+const { userSettingsRouter } = require('./routes/userSettingsRoutes');
+const { logoutRouter } = require('./routes/loguotRoutes');
+const { addressRouter } = require('./routes/addsressRoutes');
 
 // Authorization require
-const { passport } = require('./config/authorization');
-const loginController = require('./controllers/access/loginController');
+const { passport } = require('./controllers/access/authorization');
+const loginController = require('./controllers/access/checkLoginDataController');
 const accessUser = require('./controllers/access/accessUserController');
 const accessAdmin = require('./controllers/access/accessAdminController');
 const accessHeadAdmin = require('./controllers/access/accessHeadAdminController');
@@ -43,7 +43,7 @@ app.use(express.json());
 
 // routes
 //
-app.use('/admin/users',accessHeadAdmin , usersManagementRouter);
+app.use('/admin/users', accessHeadAdmin, usersManagementRouter);
 app.use('/register', registerRouter);
 app.use('/user/settings', userSettingsRouter);
 app.use('/address', addressRouter);

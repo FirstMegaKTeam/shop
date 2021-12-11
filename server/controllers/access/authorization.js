@@ -6,7 +6,7 @@ const passportJWT = require('passport-jwt');
 const jwt = require('jsonwebtoken');
 
 // import
-const { User } = require('../DB/models/index');
+const { User } = require('../../DB/models/index');
 
 // variable
 const JWTStrategy = passportJWT.Strategy;
