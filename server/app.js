@@ -3,6 +3,7 @@ const dotenv = require('dotenv');
 
 dotenv.config({ path: '.env' });
 const express = require('express');
+const cookieParser = require('cookie-parser');
 const { sequelize } = require('./DB/models/index');
 
 // require routes
@@ -23,6 +24,7 @@ const { addressRouter } = require('./routes/addsress');
 // Authorization require
 const { passport } = require('./config/authorization');
 const loginControler = require('./controllers/loginControler');
+const accessUser = require('./controllers/accessUserControler');
 
 // requires
 const { handleError } = require('./middleware/handleError');
@@ -32,12 +34,14 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 // Middleware
+
 app.use(passport.initialize());
+// app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(express.json());
 
 // routes
 //
-app.use('/admin/users', usersManagementRouter);
+app.use('/admin/users', accessUser, usersManagementRouter);
 app.use('/register', registerRouter);
 app.use('/user/settings', userSettingsRouter);
 app.use('/address', addressRouter);

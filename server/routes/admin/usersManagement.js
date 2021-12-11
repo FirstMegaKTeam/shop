@@ -7,6 +7,7 @@ const usersManagementRouter = express.Router();
 
 usersManagementRouter
   .get('/', async (req, res, next) => {
+          console.log(req);
     try {
       const allUsers = await User.findAll();
       res.json(allUsers);
@@ -17,6 +18,7 @@ usersManagementRouter
   })
 
   .get('/id/:id', async (req, res, next) => {
+
     const { id } = req.params;
     try {
       const oneUserFindById = await User.findOne({
