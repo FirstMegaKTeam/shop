@@ -3,6 +3,7 @@ const { User } = require('../../DB/models/index');
 
 const getAllUsers = async (req, res, next) => {
   try {
+    console.log('admin panel:',req.headers.Authorization);
     const allUsers = await User.findAll();
     res.json(allUsers);
   } catch (e) {
