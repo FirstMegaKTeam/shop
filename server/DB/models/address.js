@@ -67,10 +67,6 @@ module.exports = (sequelize, DataTypes) => {
     apartmentNo: {
       type: DataTypes.STRING(6),
     },
-    userId: {
-      type: DataTypes.UUID,
-      allowNull: false,
-    },
   }, {
     sequelize,
     tableName: 'address',

@@ -16,14 +16,14 @@ module.exports = (sequelize, DataTypes) => {
       this.hasMany(Address, {
         foreignKey: 'userId',
       });
-      this.belongsToMany(Product, {
-        through: 'RatingProducts',
-        unique: false,
-      });
-      this.belongsToMany(Product, {
-        unique: false,
-        through: 'UserProductsHistory',
-
+      // this.belongsToMany(Product, {
+      //   through: {
+      //     model: RatingProducts,
+      //     unique: false,
+      //   },
+      // });
+      this.hasMany(UserProductsHistory, {
+          foreignKey: 'userId',
       });
     }
 

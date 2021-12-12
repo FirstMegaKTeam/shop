@@ -3,7 +3,6 @@ const { User } = require('../../DB/models/index');
 
 const getAllUsers = async (req, res, next) => {
   try {
-    console.log('admin panel:',req.headers.Authorization);
     const allUsers = await User.findAll();
     res.json(allUsers);
   } catch (e) {
@@ -23,7 +22,6 @@ const getOneUserByID = async (req, res, next) => {
 
     res.json(oneUserFindById);
   } catch (e) {
-    console.log(e);
     next(e);
   }
 };
@@ -47,7 +45,6 @@ const editUserData = async (req, res, next) => {
   } = req.body;
   try {
     const user = await User.findOne({ where: { id } });
-    console.log(user);
 
     if (!user) {
       throw new Error('User dont exist');
@@ -55,8 +52,7 @@ const editUserData = async (req, res, next) => {
     Object.assign(user, newUserInfoObj);
 
     if (password) {
-      const hashPassword = await hash(password, 10);
-      user.password = hashPassword;
+      user.password = await hash(password, 10);
     }
 
     const responseDB = user.save();
@@ -75,7 +71,6 @@ const deleteUser = async (req, res, next) => {
     const deletedUser = await user.destroy();
     res.json(deletedUser);
   } catch (e) {
-    console.log(e);
     res.json('Error ;)');
   }
 };

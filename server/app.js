@@ -42,7 +42,6 @@ app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(express.json());
 
 app.use(setHeader);
-
 // routes
 //
 app.use('/admin/users', accessHeadAdmin, usersManagementRouter);
@@ -52,6 +51,7 @@ app.use('/address', addressRouter);
 app.use('/login', loginController, loginRouter);
 app.use('/products', productsRouter);
 app.use('/logout', logoutRouter);
+app.use('/history', purchaseHistoryRouter);
 
 // handle Errors
 
@@ -62,8 +62,9 @@ app.listen(port, 'localhost', async () => {
   await sequelize.authenticate();
   console.log('Connect with DB');
 });
-
 // async function main() {
 //   await sequelize.sync({ force: true });
 // }
 // main();
+
+
