@@ -31,6 +31,21 @@ module.exports = {
           notEmpty: { msg: 'Url  can\'t be empty string' },
         },
       },
+      sumRating: {
+        type: DataTypes.INTEGER(11),
+        allowNull: false,
+        defaultValue: 0,
+      },
+      quantityRatings: {
+        type: DataTypes.INTEGER(6),
+        allowNull: false,
+        defaultValue: 0,
+      },
+      availability: {
+        type: DataTypes.INTEGER(6),
+        allowNull: false,
+        defaultValue: 0,
+      },
       description: {
         type: DataTypes.TEXT,
       },

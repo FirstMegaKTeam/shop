@@ -62,9 +62,9 @@ app.listen(port, 'localhost', async () => {
   await sequelize.authenticate();
   console.log('Connect with DB');
 });
-// async function main() {
-//   await sequelize.sync({ force: true });
-// }
+async function main() {
+  await sequelize.sync({ force: true });
+}
 // main();
 
 

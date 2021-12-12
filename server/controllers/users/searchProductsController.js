@@ -1,5 +1,6 @@
 const { Op } = require('sequelize');
-const { Product } = require('../../DB/models/index');
+const { Product, ProductRating } = require('../../DB/models/index');
+const { getGradeAverage, addPossibilitiesEdit } = require('../../utils/convertDataDb');
 
 const getAllProducts = async (req, res, next) => {
   try {
@@ -15,8 +16,22 @@ const getAllProducts = async (req, res, next) => {
       offset = limit * page;
     }
 
-    const products = await Product.findAll({ limit, offset });
-    res.json(products);
+    const products = await Product.findAll({
+      limit,
+      offset,
+      include: {
+        model: ProductRating,
+        attributes: ['rating'],
+      },
+    });
+
+    const productsToEdit = addPossibilitiesEdit(products);
+    const productsWithRating = productsToEdit.map((oneRecord) => {
+      oneRecord.ProductRatings = getGradeAverage(oneRecord.ProductRatings);
+      return oneRecord;
+    });
+
+    res.json(productsWithRating);
   } catch (e) {
     next(e);
   }
@@ -31,11 +46,22 @@ const getProductByName = async (req, res, next) => {
     }
     const productsByName = await Product.findAll({
       limit: 100,
+      include: {
+        model: ProductRating,
+        attributes: ['rating'],
+      },
       where: {
         name: { [Op.like]: `%${name}%` },
       },
     });
-    res.json(productsByName);
+
+    const productsToEdit = addPossibilitiesEdit(productsByName);
+    const productsWithRating = productsToEdit.map((oneRecord) => {
+      oneRecord.ProductRatings = getGradeAverage(oneRecord.ProductRatings);
+      return oneRecord;
+    });
+
+    res.json(productsWithRating);
   } catch (e) {
     next(e);
   }
@@ -53,25 +79,46 @@ const getByPriceSmallerOrBigger = async (req, res, next) => {
 
     if (biggerOrSmaller === 'bigger') {
       const productsMoreExpensive = await Product.findAll({
+        include: {
+          model: ProductRating,
+          attributes: ['rating'],
+        },
         where: {
           price: {
             [Op.gte]: PriceToNumber,
           },
         },
       });
-      console.log(productsMoreExpensive);
-      res.json(productsMoreExpensive);
+
+      const productsToEdit = addPossibilitiesEdit(productsMoreExpensive);
+      const productsWithRating = productsToEdit.map((oneRecord) => {
+        oneRecord.ProductRatings = getGradeAverage(oneRecord.ProductRatings);
+        return oneRecord;
+      });
+
+      res.json(productsWithRating);
       return;
     }
     if (biggerOrSmaller === 'smaller') {
       const productsCheaper = await Product.findAll({
+        include: {
+          model: ProductRating,
+          attributes: ['rating'],
+        },
         where: {
           price: {
             [Op.lte]: PriceToNumber,
           },
         },
       });
-      res.json(productsCheaper);
+
+      const productsToEdit = addPossibilitiesEdit(productsCheaper);
+      const productsWithRating = productsToEdit.map((oneRecord) => {
+        oneRecord.ProductRatings = getGradeAverage(oneRecord.ProductRatings);
+        return oneRecord;
+      });
+
+      res.json(productsWithRating);
       return;
     }
     throw new Error('Your params is wrong');
@@ -98,13 +145,24 @@ const getProductByPriceBetween = async (req, res, next) => {
     }
 
     const productsBetween = await Product.findAll({
+      include: {
+        model: ProductRating,
+        attributes: ['rating'],
+      },
       where: {
         price: {
           [Op.between]: betweenQuery,
         },
       },
     });
-    res.json(productsBetween);
+
+    const productsToEdit = addPossibilitiesEdit(productsBetween);
+    const productsWithRating = productsToEdit.map((oneRecord) => {
+      oneRecord.ProductRatings = getGradeAverage(oneRecord.ProductRatings);
+      return oneRecord;
+    });
+
+    res.json(productsWithRating);
   } catch (e) {
     next(e);
   }

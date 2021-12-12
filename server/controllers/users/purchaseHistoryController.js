@@ -1,4 +1,7 @@
-const { User, Product, UserProductsHistory } = require('../../DB/models/index');
+const {
+  User, Product, UserProductsHistory, ProductRating,
+} = require('../../DB/models/index');
+const { getGradeAverage, addPossibilitiesEdit } = require('../../utils/convertDataDb');
 
 const getShoppingHistory = async (req, res, next) => {
   try {
@@ -10,29 +13,24 @@ const getShoppingHistory = async (req, res, next) => {
         attributes: ['createdAt'],
         include: {
           model: Product,
-          attributes: ['id', 'name', 'price', 'imgUrl', 'sumRating', 'availability', 'description'],
+          attributes: ['id', 'name', 'price', 'imgUrl', 'availability', 'description'],
+          include: {
+            model: ProductRating,
+            attributes: ['rating'],
+          },
         },
       },
       where: { id },
+
+    });
+    const userProdHisToEdit = addPossibilitiesEdit(UserProductsHistories);
+
+    const shoppingHistory = userProdHisToEdit.map((oneRecord) => {
+      oneRecord.Product.ProductRatings = getGradeAverage(oneRecord.Product.ProductRatings);
+      return oneRecord;
     });
 
-    //      User Product history
-    //    it's array includes object
-    // User Product history  =   [
-    //      {
-    //        createdAt: '2021-12-12T18:31:43.000Z', <-Date of buy
-    //        Product: { <- inside is product its to another  object
-    //          id: '3',
-    //          name: 'chleb',
-    //          price: '3.00',
-    //          imgUrl: '',
-    //          sumRating: 0,
-    //          availability: 0,
-    //          description: null,
-    //        },
-    //      },
-    //    ];
-    res.json(UserProductsHistories);
+    res.json(shoppingHistory);
   } catch (e) {
     next(e);
   }

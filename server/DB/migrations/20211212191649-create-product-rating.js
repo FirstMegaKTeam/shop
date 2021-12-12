@@ -1,6 +1,6 @@
 module.exports = {
   up: async (queryInterface, DataTypes) => {
-    await queryInterface.createTable('ratingProducts', {
+    await queryInterface.createTable('productRatings', {
       id: {
         type: DataTypes.UUID,
         primaryKey: true,
@@ -8,17 +8,27 @@ module.exports = {
         allowNull: false,
       },
       rating: {
-        type: DataTypes.TINYINT(1),
-        allowNull: false,
-        validate: {
-          notNull: { msg: 'You must chose rating' },
-          notEmpty: { msg: 'Rating can\'t be empty value' },
-        },
-      },
-      ratingDescription: {
-        type: DataTypes.STRING(400),
+        type: DataTypes.INTEGER(6),
         allowNull: false,
         defaultValue: 0,
+      },
+      userId: {
+        type: DataTypes.UUID,
+        allowNull: false,
+        unique: true,
+        references: {
+          model: 'users',
+          key: 'id',
+        },
+      },
+      productId: {
+        type: DataTypes.UUID,
+        allowNull: false,
+        unique: true,
+        references: {
+          model: 'product',
+          key: 'id',
+        },
       },
       createdAt: {
         allowNull: false,
@@ -31,6 +41,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, DataTypes) => {
-    await queryInterface.dropTable('ratingProducts');
+    await queryInterface.dropTable('productRatings');
   },
 };

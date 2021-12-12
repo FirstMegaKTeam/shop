@@ -16,6 +16,22 @@ module.exports = {
         allowNull: false,
         type: DataTypes.DATE,
       },
+      userId: {
+        type: DataTypes.UUID,
+        allowNull: false,
+        references: {
+          model: 'users',
+          key: 'id',
+        },
+      },
+      productId: {
+        type: DataTypes.UUID,
+        allowNull: false,
+        references: {
+          model: 'product',
+          key: 'id',
+        },
+      },
     });
   },
   down: async (queryInterface, Sequelize) => {
