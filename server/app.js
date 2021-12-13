@@ -1,4 +1,5 @@
 // dependencis
+// TODO Add validation user id with cookie
 const dotenv = require('dotenv');
 
 dotenv.config({ path: '.env' });
@@ -52,6 +53,7 @@ app.use('/products', productsRouter);
 app.use('/logout', logoutRouter);
 app.use('/history', purchaseHistoryRouter);
 app.use('/admin/addproduct', productManagementRouter);
+app.use('/message', messageRouter);
 
 // handle Errors
 
