@@ -16,7 +16,6 @@ const { buyRouter } = require('./routes/buyRoutes');
 const { productsRouter } = require('./routes/searchProductsRoutes');
 const { purchaseHistoryRouter } = require('./routes/purchaseHistoryRoutes');
 const { messageRouter } = require('./routes/messagesRoutes');
-const { ratingRouter } = require('./routes/ratingProductsRoutes');
 const { userSettingsRouter } = require('./routes/userSettingsRoutes');
 const { logoutRouter } = require('./routes/loguotRoutes');
 const { addressRouter } = require('./routes/addsressRoutes');
@@ -52,6 +51,7 @@ app.use('/login', loginController, loginRouter);
 app.use('/products', productsRouter);
 app.use('/logout', logoutRouter);
 app.use('/history', purchaseHistoryRouter);
+app.use('/admin/addproduct', productManagementRouter);
 
 // handle Errors
 
@@ -66,5 +66,3 @@ async function main() {
   await sequelize.sync({ force: true });
 }
 // main();
-
-

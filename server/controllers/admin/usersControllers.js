@@ -71,7 +71,7 @@ const deleteUser = async (req, res, next) => {
     const deletedUser = await user.destroy();
     res.json(deletedUser);
   } catch (e) {
-    res.json('Error ;)');
+   next(e)
   }
 };
 
