@@ -3,7 +3,7 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const { compare } = require('bcrypt');
 const passportJWT = require('passport-jwt');
-const jwt = require('jsonwebtoken');
+
 
 // import
 const { User } = require('../../DB/models/index');

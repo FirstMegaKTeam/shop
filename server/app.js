@@ -13,7 +13,7 @@ const { productManagementRouter } = require('./routes/admin/productManagement');
 const { loginRouter } = require('./routes/loginRoutes');
 const { registerRouter } = require('./routes/registerRoutes');
 const { homeRouter } = require('./routes/homeRoutes');
-const { buyRouter } = require('./routes/buyRoutes');
+const { basketRouter } = require('./routes/basketRoutes');
 const { productsRouter } = require('./routes/searchProductsRoutes');
 const { purchaseHistoryRouter } = require('./routes/purchaseHistoryRoutes');
 const { messageRouter } = require('./routes/messagesRoutes');
@@ -54,7 +54,9 @@ app.use('/logout', logoutRouter);
 app.use('/history', purchaseHistoryRouter);
 app.use('/admin/addproduct', productManagementRouter);
 app.use('/message', messageRouter);
+app.use('/basket', basketRouter);
 
+const x = 'asdasadsadsadsadsa';
 // handle Errors
 
 app.use(handleError);
