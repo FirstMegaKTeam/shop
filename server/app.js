@@ -20,6 +20,8 @@ const { messageRouter } = require('./routes/messagesRoutes');
 const { userSettingsRouter } = require('./routes/userSettingsRoutes');
 const { logoutRouter } = require('./routes/loguotRoutes');
 const { addressRouter } = require('./routes/addsressRoutes');
+const { orderRouter } = require('./routes/admin/orderRoutes');
+const { ratingRouter } = require('./routes/ratingRouter');
 
 // Authorization require
 const { passport } = require('./controllers/access/authorization');
@@ -52,9 +54,11 @@ app.use('/login', loginController, loginRouter);
 app.use('/products', productsRouter);
 app.use('/logout', logoutRouter);
 app.use('/history', purchaseHistoryRouter);
-app.use('/admin/addproduct', productManagementRouter);
+app.use('/admin/product', productManagementRouter);
 app.use('/message', messageRouter);
 app.use('/basket', basketRouter);
+app.use('/order', orderRouter);
+app.use('/rating', ratingRouter);
 
 const x = 'asdasadsadsadsadsa';
 // handle Errors

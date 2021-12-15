@@ -1,7 +1,7 @@
 const {
   User, Product, UserProductsHistory, ProductRating,
 } = require('../../DB/models/index');
-const { getGradeAverage, addPossibilitiesEdit } = require('../../utils/convertDataDb');
+const { getGradeAverage, addPossibilitiesEdit } = require('../../utils/dbUtils');
 
 const getShoppingHistory = async (req, res, next) => {
   try {

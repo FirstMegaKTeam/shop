@@ -1,7 +1,7 @@
 const { Op } = require('sequelize');
-
 const { Product } = require('../../DB/models/index');
-const { addPossibilitiesEdit } = require('../../utils/convertDataDb');
+
+const { addPossibilitiesEdit } = require('../../utils/dbUtils');
 
 const getUserBasket = async (req, res, next) => {
   const { basket } = req.cookies;
@@ -53,8 +53,8 @@ const addProductToBasket = async (req, res, next) => {
     if (!checkId) {
       throw new Error('This porduct dont exist');
     }
-    if (checkId.availability <= count || checkId.availability <= 0) {
-      throw new Error(`Sorry we chew now ${checkId.availability} in magazines`);
+    if (checkId.availability < count || checkId.availability <= 0) {
+      throw new Error(`Sorry we have now ${checkId.availability} in magazines`);
     }
 
     const index = basket.findIndex((oneEl) => oneEl.id === productId);

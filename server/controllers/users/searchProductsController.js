@@ -1,6 +1,6 @@
 const { Op } = require('sequelize');
 const { Product, ProductRating } = require('../../DB/models/index');
-const { getGradeAverage, addPossibilitiesEdit } = require('../../utils/convertDataDb');
+const { getGradeAverage, addPossibilitiesEdit } = require('../../utils/dbUtils');
 
 const getAllProducts = async (req, res, next) => {
   try {
