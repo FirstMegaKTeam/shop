@@ -8,9 +8,9 @@ const {
   deleteUser,
 } = require('../../controllers/admin/usersControllers');
 
-const usersManagementRouter = express.Router();
+const manageUsersRouter = express.Router();
 
-usersManagementRouter
+manageUsersRouter
   .get('/', getAllUsers)
   .get('/id/:id', getOneUserByID)
   .get('/email/:email', getOneUserByEmail)
@@ -18,5 +18,5 @@ usersManagementRouter
   .delete('/', deleteUser);
 
 module.exports = {
-  usersManagementRouter,
+  manageUsersRouter,
 };

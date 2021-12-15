@@ -1,12 +1,12 @@
 const express = require('express');
 const {adnNewProduct,editProduct, deleteProduct} = require('../../controllers/admin/productsController')
 
-const productManagementRouter = express.Router();
-productManagementRouter
+const manageProductRouter = express.Router();
+manageProductRouter
   .post('/', adnNewProduct)
   .patch('/',  editProduct)
   .delete('/', deleteProduct);
 
 module.exports = {
-  productManagementRouter,
+  manageProductRouter,
 };

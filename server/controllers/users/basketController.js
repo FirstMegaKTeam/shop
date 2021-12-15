@@ -40,7 +40,8 @@ const getUserBasket = async (req, res, next) => {
 };
 
 const addProductToBasket = async (req, res, next) => {
-  const basket = req.cookies.basket ?? [];
+  const basket = (req.cookies.basket) ? req.cookies.basket : [];
+
   const { productId, count } = req.body;
 
   try {

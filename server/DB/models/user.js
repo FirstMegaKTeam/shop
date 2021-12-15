@@ -5,13 +5,13 @@ const {
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate({
-      Address, ProductRating, UserProductsHistory, Message,
+      Address,
+      ProductRating,
+      Message,
+      Order,
     }) {
       // define association here
       this.hasMany(Address, {
-        foreignKey: 'userId',
-      });
-      this.hasMany(UserProductsHistory, {
         foreignKey: 'userId',
       });
       this.hasMany(ProductRating, {
@@ -25,6 +25,9 @@ module.exports = (sequelize, DataTypes) => {
       this.hasMany(Message, {
         foreignKey: 'recipient',
         as: 'received',
+      });
+      this.hasOne(Order, {
+        foreignKey: 'userId',
       });
     }
 

@@ -8,20 +8,20 @@ const cookieParser = require('cookie-parser');
 const { sequelize } = require('./DB/models/index');
 
 // require routes
-const { usersManagementRouter } = require('./routes/admin/usersManagement');
-const { productManagementRouter } = require('./routes/admin/productManagement');
-const { loginRouter } = require('./routes/loginRoutes');
-const { registerRouter } = require('./routes/registerRoutes');
-const { homeRouter } = require('./routes/homeRoutes');
-const { basketRouter } = require('./routes/basketRoutes');
-const { productsRouter } = require('./routes/searchProductsRoutes');
-const { purchaseHistoryRouter } = require('./routes/purchaseHistoryRoutes');
-const { messageRouter } = require('./routes/messagesRoutes');
-const { userSettingsRouter } = require('./routes/userSettingsRoutes');
-const { logoutRouter } = require('./routes/loguotRoutes');
-const { addressRouter } = require('./routes/addsressRoutes');
-const { orderRouter } = require('./routes/admin/orderRoutes');
+const { manageUsersRouter } = require('./routes/admin/manageUsersRouter');
+const { manageProductRouter } = require('./routes/admin/manageProductRouter');
+const { loginRouter } = require('./routes/loginRouter');
+const { registerRouter } = require('./routes/registerRouter');
+const { homeRouter } = require('./routes/homeRouter');
+const { basketRouter } = require('./routes/basketRouter');
+const { productsRouter } = require('./routes/searchProductsRouter');
+const { messageRouter } = require('./routes/messagesRouter');
+const { userSettingsRouter } = require('./routes/userSettingsRouter');
+const { logoutRouter } = require('./routes/loguotRouter');
+const { addressRouter } = require('./routes/addsressRouter');
+const { orderRouter } = require('./routes/orderRoutes');
 const { ratingRouter } = require('./routes/ratingRouter');
+const { manageOrdersRouter } = require('./routes/admin/manageOrdersRouter')
 
 // Authorization require
 const { passport } = require('./controllers/access/authorization');
@@ -46,21 +46,20 @@ app.use(express.json());
 app.use(setHeader);
 // routes
 //
-app.use('/admin/users', accessHeadAdmin, usersManagementRouter);
+app.use('/admin/users', accessHeadAdmin, manageUsersRouter);
 app.use('/register', registerRouter);
 app.use('/user/settings', userSettingsRouter);
 app.use('/address', addressRouter);
 app.use('/login', loginController, loginRouter);
 app.use('/products', productsRouter);
 app.use('/logout', logoutRouter);
-app.use('/history', purchaseHistoryRouter);
-app.use('/admin/product', productManagementRouter);
+app.use('/admin/product', manageProductRouter);
 app.use('/message', messageRouter);
 app.use('/basket', basketRouter);
 app.use('/order', orderRouter);
 app.use('/rating', ratingRouter);
+app.use('/admin/orders', manageOrdersRouter)
 
-const x = 'asdasadsadsadsadsa';
 // handle Errors
 
 app.use(handleError);

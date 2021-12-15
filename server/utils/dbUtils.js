@@ -1,4 +1,4 @@
-const { Product } = require('../DB/models/index');
+const { Product, Order } = require('../DB/models/index');
 
 const getGradeAverage = (rating) => {
   const ratingNumberArr = rating.map((ratingObj) => ratingObj.rating);
@@ -22,8 +22,24 @@ const saveSellProductInDB = async (id, count) => {
   await updateProduct.save();
 };
 
+const addToOrderSystem = async (products, userId) => {
+  try {
+    console.log(products, userId);
+
+    // console.log(productsInJson);
+    const xxx = await Order.create({
+      userId,
+      products
+    });
+    console.log(xxx)
+  } catch (e) {
+    return e;
+  }
+};
+
 module.exports = {
   getGradeAverage,
   addPossibilitiesEdit,
   saveSellProductInDB,
+  addToOrderSystem,
 };
