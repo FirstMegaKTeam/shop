@@ -25,12 +25,12 @@ module.exports = (sequelize, DataTypes) => {
     userId: {
       type: DataTypes.UUID,
       allowNull: false,
-      unique: 'compositeIndex'
+      unique: 'compositeIndex',
     },
     productId: {
       type: DataTypes.UUID,
       allowNull: false,
-      unique: 'compositeIndex'
+      unique: 'compositeIndex',
     },
 
     rating: {

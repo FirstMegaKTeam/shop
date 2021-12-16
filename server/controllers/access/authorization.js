@@ -4,7 +4,6 @@ const LocalStrategy = require('passport-local').Strategy;
 const { compare } = require('bcrypt');
 const passportJWT = require('passport-jwt');
 
-
 // import
 const { User } = require('../../DB/models/index');
 

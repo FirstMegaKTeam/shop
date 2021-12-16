@@ -7,7 +7,7 @@ const getAllProducts = async (req, res, next) => {
     const page = Number(req.params.page);
 
     if (isNaN(page)) {
-      throw new Error('page must be a numter type');
+      throw new Error('page must be a number type');
     }
 
     const limit = 25;

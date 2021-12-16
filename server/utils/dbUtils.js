@@ -24,14 +24,10 @@ const saveSellProductInDB = async (id, count) => {
 
 const addToOrderSystem = async (products, userId) => {
   try {
-    console.log(products, userId);
-
-    // console.log(productsInJson);
-    const xxx = await Order.create({
+    await Order.create({
       userId,
-      products
+      products,
     });
-    console.log(xxx)
   } catch (e) {
     return e;
   }

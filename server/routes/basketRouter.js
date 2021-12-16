@@ -1,9 +1,10 @@
 const express = require('express');
-const { getUserBasket,
+const {
+  getUserBasket,
   addProductToBasket,
-  deleteProductFromBasket
+  deleteProductFromBasket,
 } = require('../controllers/users/basketController');
-//todo poprawić błąd z 1 produtketm
+// todo poprawić błąd z 1 produtketm
 const basketRouter = express.Router();
 
 basketRouter

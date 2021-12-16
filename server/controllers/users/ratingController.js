@@ -23,9 +23,8 @@ const addProductRating = async (req, res, next) => {
     const addedRating = await ProductRating.create({ productId, userId, rating });
     res.json(addedRating);
   } catch (e) {
-
-    //TODO  IF USER  e.code: 'ER_DUP_ENTRY'
-    //TODO  IF USER  e.errno: 1062,'
+    // TODO  IF USER  e.code: 'ER_DUP_ENTRY'
+    // TODO  IF USER  e.errno: 1062,'
     next(e);
   }
 };

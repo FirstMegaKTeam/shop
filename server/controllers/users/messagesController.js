@@ -124,5 +124,5 @@ module.exports = {
   getSentOrReceivedUserMessage,
   getOneMessage,
   sendMessage,
-  deleteMessage
+  deleteMessage,
 };

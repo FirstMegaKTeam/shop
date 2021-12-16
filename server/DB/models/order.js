@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     status: {
       type: DataTypes.STRING(20),
-      defaultValue:  'not-paid',
+      defaultValue: 'not-paid',
     },
 
     products: {

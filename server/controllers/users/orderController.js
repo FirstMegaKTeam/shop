@@ -35,7 +35,7 @@ const order = async (req, res, next) => {
       },
     });
     const productsToEdit = addPossibilitiesEdit(productsFromDB);
-
+    let toPaid = 0;
     const checkStateInMagazineAndSel = productsToEdit.map((oneProductFromDB) => {
       const productWithCount = {};
       basket.forEach((oneProductForBasket) => {
@@ -55,12 +55,18 @@ const order = async (req, res, next) => {
           }
         }
       });
+      toPaid += (Number(productWithCount.price) * productWithCount.count);
+      console.log((Number(productWithCount.price) * productWithCount.count));
       return productWithCount;
     });
 
     await addToOrderSystem(checkStateInMagazineAndSel, userId);
     res.clearCookie('basket');
-    res.json(checkStateInMagazineAndSel);
+
+    res.json({
+      toPaid,
+      order: checkStateInMagazineAndSel,
+    });
   } catch (er) {
     next(er);
   }
@@ -80,8 +86,12 @@ const orderNow = async (req, res, next) => {
     }
     await saveSellProductInDB(findBuyProduct.id, count);
     await addToOrderSystem(findBuyProduct, userId);
+    const toPaid = Number(findBuyProduct.price) * count;
 
-    res.json(findBuyProduct);
+    res.json({
+      toPaid,
+      order: findBuyProduct,
+    });
   } catch (e) {
     next(e);
   }

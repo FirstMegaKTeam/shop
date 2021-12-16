@@ -51,6 +51,10 @@ const editUserData = async (req, res, next) => {
     }
     Object.assign(user, newUserInfoObj);
 
+    if (user.role >= 1) {
+      throw new Error(('You not head admin'));
+    }
+
     if (password) {
       user.password = await hash(password, 10);
     }
@@ -71,7 +75,7 @@ const deleteUser = async (req, res, next) => {
     const deletedUser = await user.destroy();
     res.json(deletedUser);
   } catch (e) {
-   next(e)
+    next(e);
   }
 };
 
