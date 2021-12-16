@@ -359,7 +359,9 @@ http://localhost:5000/admin/users
 any params in response server send you all users in
 
 METHOD GET
+
 http://localhost:5000/admin/users/id/:id
+
 in req params you must send 
 - id <-userId
 
@@ -493,3 +495,30 @@ in req.body you must send
 - id <-product id
 
 In response server send you deleted product
+
+
+## 14 Head Admin user manage
+this endpoint onli for head admin, head admin you get role admin end delete admin 
+
+METHOD PATCH
+
+http://localhost:5000//head/admin/manage
+
+in req.body you must send
+- id, <-user to edit id
+- newUserInfoObj, <-must be, object and key must be identical like in DB
+
+And you can send yet new password:
+- password,
+
+In response server send you edited user
+
+
+METHOD DELETE
+
+http://localhost:5000/head/admin/manage
+
+in req body you must send
+- id <-user id
+
+In response server send you deleted users

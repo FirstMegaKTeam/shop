@@ -10,7 +10,7 @@ const changeSettings = async (req, res, next) => {
     if (!user) {
       throw new Error('User dont exist');
     }
-    // todo Add Object Asign
+    // user can edit only this field
     user.name = name || user.name;
     user.lastName = lastName || user.lastName;
     user.age = age || user.age;

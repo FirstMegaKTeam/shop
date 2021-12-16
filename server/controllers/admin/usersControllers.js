@@ -55,6 +55,10 @@ const editUserData = async (req, res, next) => {
       throw new Error(('You not head admin'));
     }
 
+    if (newUserInfoObj.role !== 0) {
+      throw new Error('You are not head admin');
+    }
+
     if (password) {
       user.password = await hash(password, 10);
     }
@@ -72,6 +76,14 @@ const deleteUser = async (req, res, next) => {
     const user = await User.findOne({
       where: { id },
     });
+
+    if (!user) {
+      throw new Error('User dont exist');
+    }
+
+    if (user.role >= 1) {
+      throw new Error(('You not head admin'));
+    }
     const deletedUser = await user.destroy();
     res.json(deletedUser);
   } catch (e) {
