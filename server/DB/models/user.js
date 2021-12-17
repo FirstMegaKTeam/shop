@@ -91,6 +91,15 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: { msg: 'Password can\'t be empty value' },
       },
     },
+    publicKey: {
+      type: DataTypes.STRING(60),
+      allowNull: false,
+      validate: {
+        notNull: { msg: 'Key can\'t be null' },
+        notEmpty: { msg: 'Key can\'t be empty value' },
+      },
+    },
+
   }, {
     sequelize,
     tableName: 'users',

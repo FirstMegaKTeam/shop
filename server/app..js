@@ -6,6 +6,7 @@ const loginController = require('./controllers/access/checkLoginDataController')
 const accessUser = require('./controllers/access/accessUserController');
 const accessAdmin = require('./controllers/access/accessAdminController');
 const accessHeadAdmin = require('./controllers/access/accessHeadAdminController');
+const confirmEmailAuthenticate = require('./controllers/access/confirmAuthenticate');
 
 // Head admin routes
 const { headAdminRouter } = require('./routes/headAdmin/userAndAdminManageRouter');
@@ -15,8 +16,9 @@ const { manageProductRouter } = require('./routes/admin/manageProductRouter');
 const { manageOrdersRouter } = require('./routes/admin/manageOrdersRouter');
 const { manageUsersRouter } = require('./routes/admin/manageUsersRouter');
 
-//  Register/login/logout routes
+//  Register/login/logout/confirm email routes
 const { registerRouter } = require('./routes/registerRouter');
+const { confirmEmailRouter } = require('./routes/confirmEmail');
 const { loginRouter } = require('./routes/loginRouter');
 const { logoutRouter } = require('./routes/loguotRouter');
 
@@ -47,6 +49,7 @@ app.use('/admin/', manageProductRouter);
 
 // Register Login Logout
 app.use('/register', registerRouter);
+app.use('/confirm', confirmEmailRouter);
 app.use('/login', loginController, loginRouter);
 app.use('/logout', logoutRouter);
 

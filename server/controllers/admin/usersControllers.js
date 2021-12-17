@@ -62,6 +62,8 @@ const editUserData = async (req, res, next) => {
     if (password) {
       user.password = await hash(password, 10);
     }
+    user.publicKey = await hash((user.name.concat(user.lastName, user.age, user.email)), 10);
+
 
     const responseDB = user.save();
     res.json(user);
