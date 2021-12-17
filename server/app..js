@@ -1,4 +1,5 @@
 const express = require('express');
+// TODO add field in user DB and connect this witch JWT??
 
 // Access controller
 const loginController = require('./controllers/access/checkLoginDataController');
@@ -42,7 +43,7 @@ app.use('/head/admin/manage', headAdminRouter);
 // Admin
 app.use('/admin/users', accessHeadAdmin, manageUsersRouter);
 app.use('/admin/orders', manageOrdersRouter);
-app.use('/admin/product', manageProductRouter);
+app.use('/admin/', manageProductRouter);
 
 // Register Login Logout
 app.use('/register', registerRouter);
@@ -58,7 +59,7 @@ app.use('/products', productsRouter);
 app.use('/message', messageRouter);
 app.use('/basket', basketRouter);
 app.use('/order', orderRouter);
-app.use('', ratingRouter);
+app.use('/rating', ratingRouter);
 
 module.exports = {
   app,

@@ -74,14 +74,14 @@ In response serv send new user
 
 ## 2 Login
 METHOD POST
-
+this arrow is only a symbol of the realized relationship between restaurants and guests, there is no direct relationship between these tables
 http://localhost:5000/login/
 
 Routes to log in .
 In JSON you must send :
 - email 
 - password
-
+ 
 In answer serv set cookie witch JWT
 
 ## 3 Logout
@@ -175,7 +175,7 @@ In response serv send all products from DB
 
 METHOD GET
 
-http://localhost:5000/name/:name
+http://localhost:5000/products/name/:name
 
 In req.params you send.
 - name
@@ -184,7 +184,7 @@ In response serv send products with name %LIKE%
 
 METHOD GET
 
-http://localhost:5000/price/sign/:price/:biggerOrSmaller
+http://localhost:5000/products/price/sign/:price/:biggerOrSmaller
 
 in req.params 2 variable 
 - price should be a number
@@ -194,7 +194,7 @@ Serv send products more expensive or cheaper than the price
 
 METHOD GET
 
-http://localhost:5000/price/compartment/:greaterThan/:lessThan
+http://localhost:5000/products/price/compartment/:greaterThan/:lessThan
 
 in req.params again we have 2 variables, first should be smaller ,but it's  ,don't matter
 - greaterThan
