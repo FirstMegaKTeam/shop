@@ -2,7 +2,7 @@ const { hash } = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const { User } = require('../../DB/models/index');
-const { sendMail } = require('../../utils/sendMail');
+const {sendActivateMail } = require('../../utils/sendMail');
 
 const registerUser = async (req, res, next) => {
   const {
@@ -32,7 +32,7 @@ const registerUser = async (req, res, next) => {
       { expiresIn: '1h' },
     );
 
-    await sendMail(email, token, name);
+    await sendActivateMail(email, token, name);
 
     res.json(newUser);
   } catch (e) {

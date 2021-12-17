@@ -1,10 +1,9 @@
 const jwt = require('jsonwebtoken');
 const { User } = require('../../DB/models/index');
-const { sendMail } = require('../../utils/sendMail');
+const { sendActivateMail } = require('../../utils/sendMail');
 
 const confirmEmail = async (req, res, next) => {
   const { user } = req;
-  console.log('xxxxx');
   try {
     const userToActivity = await User.findOne({ where: { id: user.id } });
     if (!userToActivity) {
@@ -41,7 +40,7 @@ const sendNewEmail = async (req, res, next) => {
       { expiresIn: '1h' },
     );
 
-    await sendMail(email, token, user.name);
+    await sendActivateMail(email, token, user.name);
 
     res.json('We send new activate email');
   } catch (e) {

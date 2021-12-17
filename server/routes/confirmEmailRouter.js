@@ -1,7 +1,7 @@
 const express = require('express');
 
 const { confirmEmail, sendNewEmail } = require('../controllers/users/confirmEmailController');
-const confirmEmailAuthenticate = require('../controllers/access/confirmAuthenticate');
+const confirmEmailAuthenticate = require('../controllers/access/accessByQueryParamsToken');
 
 const confirmEmailRouter = express.Router();
 
