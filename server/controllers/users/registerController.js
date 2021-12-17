@@ -2,7 +2,7 @@ const { hash } = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const { User } = require('../../DB/models/index');
-const {sendActivateMail } = require('../../utils/sendMail');
+const { sendActivateMail } = require('../../utils/sendMail');
 
 const registerUser = async (req, res, next) => {
   const {

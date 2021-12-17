@@ -1,7 +1,7 @@
 const express = require('express');
-const { sendEmailWithResetLink, checkQueryAndSendCookie, setNewPassword} = require('../controllers/users/resetPaswordControllers');
+const { sendEmailWithResetLink, checkQueryAndSendCookie, setNewPassword } = require('../controllers/users/resetPaswordControllers');
 const accessTokenInQueryString = require('../controllers/access/accessByQueryParamsToken');
-const accessCookieToChangeResPass= require('../controllers/access/accessToChangeForgetPassword');
+const accessCookieToChangeResPass = require('../controllers/access/accessToChangeForgetPassword');
 
 const resetPasswordRouter = express.Router();
 

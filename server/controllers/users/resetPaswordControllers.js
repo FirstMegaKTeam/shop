@@ -32,7 +32,7 @@ const sendEmailWithResetLink = async (req, res, next) => {
     );
 
     await resetPasswordMail(user.email, token, user.name);
-    res.json('We send mail witch link to reset password')
+    res.json('We send mail witch link to reset password');
   } catch (e) {
     next(e);
   }

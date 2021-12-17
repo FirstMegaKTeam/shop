@@ -64,7 +64,6 @@ const editUserData = async (req, res, next) => {
     }
     user.publicKey = await hash((user.name.concat(user.lastName, user.age, user.email)), 10);
 
-
     const responseDB = user.save();
     res.json(user);
   } catch (e) {
