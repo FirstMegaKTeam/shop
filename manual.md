@@ -522,3 +522,53 @@ in req body you must send
 - id <-user id
 
 In response server send you deleted users
+
+## 15 Confirm email 
+
+METHOD GET
+http://localhost:5000/confirm
+
+For this endpoint you, calling from email message, 
+In response server send information in json
+
+METHOD POST
+
+http://localhost:5000/confirm
+
+In requ.body you must send 
+- email
+
+In response server send information and new email to active 
+
+## 16 Reset Password
+
+METHOD GET
+
+http://localhost:5000/reset
+
+For this endpoint you calling for email message 
+
+In response server send cookie witch auth token(only to change password) and JSON with information
+
+
+METHOD POST
+
+http://localhost:5000/reset
+
+In req.body you send:
+- name, 
+- lastName,
+- age, 
+- email,
+
+In response server send email witch link to reset password and JSON information 
+
+
+METHOD POST
+
+http://localhost:5000/reset/set/password
+
+In the req.body you send:
+- password, 
+- email 
+In response server send JSON information and change password
