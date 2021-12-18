@@ -5,11 +5,11 @@ const adnNewProduct = async (req, res, next) => {
   const {
     name, price, imgUrl, availability, description,
   } = req.body;
-  const { admin } = req;
+  const { user: admin } = req;
 
   try {
     if (!admin || admin.role < 1) throw new NotAdminError('You re not admin');
-    if (!name || !price || availability) throw new WrongDataError('You must give name, price and availability!');
+    if (!name || !price || !availability) throw new WrongDataError('You must give name, price and availability!');
 
     const newProduct = await Product.create({
       name,
@@ -27,7 +27,7 @@ const adnNewProduct = async (req, res, next) => {
 
 const editProduct = async (req, res, next) => {
   const { id, newProductInfoObj } = req.body;
-  const { admin } = req;
+  const { user: admin } = req;
 
   try {
     if (!admin || admin.role < 1) throw new NotAdminError('You re not admin');
@@ -48,7 +48,7 @@ const editProduct = async (req, res, next) => {
 
 const deleteProduct = async (req, res, next) => {
   const { id } = req.body;
-  const { admin } = req;
+  const { user: admin } = req;
 
   try {
     if (!admin || admin.role < 1) throw new NotAdminError('You re not admin');

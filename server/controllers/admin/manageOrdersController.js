@@ -2,7 +2,7 @@ const { User, Order } = require('../../DB/models/index');
 const { WrongDataError, NotFoundError, NotAdminError } = require('../../utils/errors');
 
 const getAllOrders = async (req, res, next) => {
-  const { admin } = req;
+  const { user: admin } = req;
 
   try {
     if (!admin || admin.role < 1) throw new NotAdminError('You re not admin');
@@ -19,7 +19,7 @@ const getAllOrders = async (req, res, next) => {
 
 const getOrdersByStatus = async (req, res, next) => {
   const { status } = req.params;
-  const { admin } = req;
+  const { user: admin } = req;
 
   try {
     if (!admin || admin.role < 1) throw new NotAdminError('You re not admin');
@@ -47,7 +47,7 @@ const getOrdersByStatus = async (req, res, next) => {
 
 const getUserWitchOrders = async (req, res, next) => {
   const { id } = req.params;
-  const { admin } = req;
+  const { user: admin } = req;
 
   try {
     if (!admin || admin.role < 1) throw new NotAdminError('You re not admin');
@@ -70,7 +70,7 @@ const getUserWitchOrders = async (req, res, next) => {
 
 const getOneOrder = async (req, res, next) => {
   const { id } = req.params;
-  const { admin } = req;
+  const { user: admin } = req;
 
   try {
     if (!admin || admin.role < 1) throw new NotAdminError('You re not admin');
@@ -88,7 +88,7 @@ const getOneOrder = async (req, res, next) => {
 
 const editOneOrder = async (req, res, next) => {
   const { id, newInfoObj } = req.body;
-  const { admin } = req;
+  const { user: admin } = req;
 
   try {
     if (!admin || admin.role < 1) throw new NotAdminError('You re not admin');
@@ -108,7 +108,7 @@ const editOneOrder = async (req, res, next) => {
 
 const deleteOneOrder = async (req, res, next) => {
   const { id } = req.body;
-  const { admin } = req;
+  const { user: admin } = req;
 
   try {
     if (!admin || admin.role < 1) throw new NotAdminError('You re not admin');

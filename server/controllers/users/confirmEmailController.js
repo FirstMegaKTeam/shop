@@ -1,16 +1,16 @@
 const jwt = require('jsonwebtoken');
 const { User } = require('../../DB/models/index');
 const { sendActivateMail } = require('../../utils/sendMail');
+const { NotFoundError, WrongEmailError } = require('../../utils/errors');
 
 const confirmEmail = async (req, res, next) => {
   const { user } = req;
   try {
-    const userToActivity = await User.findOne({ where: { id: user.id } });
-    if (!userToActivity) {
-      throw new Error('User not found');
-    }
-    userToActivity.activate = 1;
-    await userToActivity.save();
+    if (!user) throw new NotFoundError('User dont exist');
+    console.log(user);
+
+    user.activate = 1;
+    await user.save();
 
     res.json('Your account is active, now You can login');
   } catch (e) {
@@ -20,16 +20,13 @@ const confirmEmail = async (req, res, next) => {
 
 const sendNewEmail = async (req, res, next) => {
   const { email } = req.body;
-  console.log(email);
-  if (!email) {
-    throw new Error('You must give email address');
-  }
+
+  if (!email) throw new WrongEmailError('You must give email address');
 
   try {
     const user = await User.findOne({ where: { email } });
-    if (!user) {
-      throw new Error('User dont exist');
-    }
+
+    if (!user) throw new NotFoundError('User dont exist');
 
     const token = jwt.sign(
       {

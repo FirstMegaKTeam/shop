@@ -97,11 +97,7 @@ In res serv req clear auth cookie
 ## 4 Address 
 METHOD GET
 
-http://localhost:5000/address/:userId/
-
-In req.params send 
-- userId
-
+http://localhost:5000/address/
 In response, endpoint send all user address 
 
 METHOD POST
@@ -115,7 +111,7 @@ In JSON you must send :
 - street, 
 - homeNo,
 - apartmentNo,
-- userId,
+
 
 In response serv send new Address
 
@@ -131,7 +127,6 @@ In JSON you CAN send all data, but you don't must send all :
 - street,
 - homeNo,
 - apartmentNo,
-- userId,
 
 In request serv send edit Address
 
@@ -207,21 +202,20 @@ In response serv send products with price between variable
 
 METHOD GET
 
-http://localhost:5000/message/:userId
+http://localhost:5000/message/
 
-In req params you send 
-- userId
+Any prams
 
 In request serv send user who include Send received and message
 
 METHOD GET
 
-http://localhost:5000/message/:shippedOrReceived/:userId
+http://localhost:5000/message/:shippedOrReceived/
 
 in req.params you send two parameters(
 - shippedOrReceived) must be one for two keywords 
 "send"  or "received"
-- user id
+
 
 In response serv send you message send ot received this user
 
@@ -292,10 +286,9 @@ In the response server send actual basket
 
 METHOD GET
 
-http://localhost:5000//order/:id
+http://localhost:5000//order/
 
-In req params you send 
-- id <-userID
+Any params
 
 In the response server send array with all orders(shopping history and user can check status order)
 
@@ -304,10 +297,9 @@ METHOD POST
 
 http://localhost:5000//order/
 
-in req.body you must send:
-- userId 
+Any params
 
-In response server send toPaid(how many must paid user) and order product and cleaer basket 
+In response server send toPaid(how many must paid user) and order product and clear basket 
 
 
 
@@ -316,8 +308,7 @@ METHOD POST
 http://localhost:5000/order/buy/now
 
 in the req.body you must send
-- productId, 
-- userId, 
+- productId,
 - count
 
 In the response server send you object 
@@ -344,7 +335,6 @@ http://localhost:5000/rating
 
 in req.body you must send
 - productId,
-- userId,
 - rating <- number between 1-5
 
 In response server send you added rating

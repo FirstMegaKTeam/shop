@@ -37,11 +37,10 @@ const { messageRouter } = require('./routes/messagesRouter');
 const app = express.Router();
 
 // Middleware
-
 // Admin
 app.use('/admin/users', accessAdmin, manageUsersRouter);
-app.use('/admin/orders', manageOrdersRouter);
-app.use('/admin/', manageProductRouter);
+app.use('/admin/orders', accessAdmin, manageOrdersRouter);
+app.use('/admin/products', accessAdmin, manageProductRouter);
 
 // Register Login Logout Confirm emil reset password
 app.use('/register', registerRouter);
@@ -51,15 +50,15 @@ app.use('/logout', logoutRouter);
 app.use('/reset', resetPasswordRouter);
 
 // User settings
-app.use('/user/settings', userSettingsRouter);
-app.use('/address', addressRouter);
+app.use('/user/settings', accessUser, userSettingsRouter);
+app.use('/address', accessUser, addressRouter);
 
 // Shop
 app.use('/products', productsRouter);
-app.use('/message', messageRouter);
-app.use('/basket', basketRouter);
-app.use('/order', orderRouter);
-app.use('/rating', ratingRouter);
+app.use('/message', accessUser, messageRouter);
+app.use('/basket', accessUser, basketRouter);
+app.use('/order', accessUser, orderRouter);
+app.use('/rating', accessUser, ratingRouter);
 
 module.exports = {
   app,

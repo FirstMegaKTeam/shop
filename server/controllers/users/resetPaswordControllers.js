@@ -2,25 +2,24 @@ const { compare, hash } = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { User } = require('../../DB/models/index');
 const { resetPasswordMail } = require('../../utils/sendMail');
+const {
+  WrongDataError, NotFoundError, WrongPublicKeyError, NotLoginError, WrongEmailError,
+} = require('../../utils/errors');
 
 const sendEmailWithResetLink = async (req, res, next) => {
   const {
     name, lastName, age, email,
   } = req.body;
   try {
-    if (!name || !lastName || !age || !email) {
-      throw new Error('You must complete all the fields');
-    }
+    if (!name || !lastName || !age || !email) throw new WrongDataError('You must complete all the fields');
 
     const user = await User.findOne({ where: { email } });
-    if (!user) {
-      throw new Error('User dont exist');
-    }
+
+    if (!user) throw new NotFoundError('User dont exist');
 
     const checkUser = compare(name.concat(lastName, age, email), user.publicKey);
-    if (!checkUser) {
-      throw new Error('You write wrong data');
-    }
+
+    if (!checkUser) throw new WrongPublicKeyError('You write wrong data');
 
     const token = jwt.sign(
       {
@@ -41,10 +40,12 @@ const sendEmailWithResetLink = async (req, res, next) => {
 const checkQueryAndSendCookie = async (req, res, next) => {
   const { user } = req;
   try {
-    const userToActivity = await User.findOne({ where: { id: user.id } });
-    if (!userToActivity) {
-      throw new Error('User not found');
-    }
+    if (!user) throw new NotLoginError('Dont found user');
+
+    const userToResetPassword = await User.findOne({ where: { id: user.id } });
+
+    if (!userToResetPassword) throw new NotFoundError('User not found');
+
     const token = jwt.sign(
       {
         id: user.id,
@@ -71,17 +72,14 @@ const setNewPassword = async (req, res, next) => {
   const { user } = req;
   const { password, email } = req.body;
   try {
-    if (!password || !email) {
-      throw new Error('You must complete email and new password');
-    }
+    if (!user) throw new NotLoginError('User data be wrong');
+    if (!password || !email) throw new WrongDataError('You must complete email and new password');
 
     const userToResetPass = await User.findOne({ where: { id: user.id } });
-    if (!userToResetPass) {
-      throw new Error('User dont exist');
-    }
-    if (userToResetPass.email !== email) {
-      throw new Error('Email is wrong');
-    }
+
+    if (!userToResetPass) throw new NotFoundError('User dont exist');
+    if (userToResetPass.email !== email) throw new WrongEmailError('Email is wrong');
+
     userToResetPass.password = await hash(password, 10);
 
     await userToResetPass.save();

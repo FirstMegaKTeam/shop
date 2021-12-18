@@ -4,7 +4,7 @@ const { order, orderNow, getAllUserOrders } = require('../controllers/users/orde
 const orderRouter = express.Router();
 
 orderRouter
-  .get('/:id', getAllUserOrders)
+  .get('/', getAllUserOrders)
   .post('/', order)
   .post('/buy/now', orderNow);
 

@@ -101,7 +101,10 @@ passport.use('adminAccess', new JWTStrategy(configJWTStrategy, verifyAdmin));
 
 async function accountActivation(payload, done) {
   try {
-    const user = await User.findOne(({ where: { id: payload.id } }));
+    const user = await User.findOne(({
+      attributes: ['id', 'name', 'lastName', 'age', 'email', 'publicKey'],
+      where: { id: payload.id },
+    }));
     const keyMatch = await compare(
       user.name.concat(user.lastName, user.age, user.email),
       payload.publicKey,

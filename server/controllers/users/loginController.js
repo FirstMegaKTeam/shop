@@ -1,9 +1,12 @@
 const jwt = require('jsonwebtoken');
+const { NotFoundError, NotLoginError} = require('../../utils/errors');
 
 const loginUser = async (req, res, next) => {
   const { user } = req;
 
   try {
+    if (!user) throw new NotLoginError('You are not logged in');
+
     const token = jwt.sign(
       {
         id: user.id,

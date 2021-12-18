@@ -1,19 +1,26 @@
 const { Op } = require('sequelize');
 
-const { Product, User, Order } = require('../../DB/models/index');
+const { Product, Order } = require('../../DB/models/index');
 const { addPossibilitiesEdit, saveSellProductInDB, addToOrderSystem } = require('../../utils/dbUtils');
+const {
+  NotLoginError,
+  NotFoundError,
+  EmptyBasketError,
+  CountError,
+  WrongDataError,
+} = require('../../utils/errors');
 
 const getAllUserOrders = async (req, res, next) => {
-  try {
-    const { id } = req.params;
+  const { user } = req;
 
-    const userOrders = await User.findAll({
-      attributes: [],
-      include: {
-        model: Order,
-      },
-      where: { id },
+  try {
+    if (!user) throw new NotLoginError('You are not logged in');
+    const userOrders = await Order.findAll({
+      where: { userId: user.id },
     });
+
+    if (!userOrders || !userOrders.length) throw new NotFoundError('Dont found any orders');
+
     res.json(userOrders);
   } catch (e) {
     next(e);
@@ -22,12 +29,12 @@ const getAllUserOrders = async (req, res, next) => {
 
 const order = async (req, res, next) => {
   const { basket } = req.cookies;
-  const { userId } = req.body;
+  const { user } = req;
 
   try {
-    if (!basket || !basket.length) {
-      throw new Error('Your basket is empty');
-    }
+    if (!user) throw new NotLoginError('You are not logged in');
+    if (!basket || !basket.length) throw new EmptyBasketError('Your basket is empty');
+
     const userOrderProductsId = basket.map((oneRecord) => ({ id: oneRecord.id }));
     const productsFromDB = await Product.findAll({
       where: {
@@ -41,8 +48,7 @@ const order = async (req, res, next) => {
       basket.forEach((oneProductForBasket) => {
         if (oneProductFromDB.id === oneProductForBasket.id) {
           if (oneProductForBasket.count > oneProductFromDB.availability) {
-            // oneProductForBasket.count = oneProductFromDB.availability;
-            throw new Error(
+            throw new CountError(
               `We have only ${oneProductFromDB.availability}  ${oneProductFromDB.name}`,
             );
           } else {
@@ -56,11 +62,10 @@ const order = async (req, res, next) => {
         }
       });
       toPaid += (Number(productWithCount.price) * productWithCount.count);
-      console.log((Number(productWithCount.price) * productWithCount.count));
       return productWithCount;
     });
 
-    await addToOrderSystem(checkStateInMagazineAndSel, userId);
+    await addToOrderSystem(checkStateInMagazineAndSel, user.id);
     res.clearCookie('basket');
 
     res.json({
@@ -73,19 +78,21 @@ const order = async (req, res, next) => {
 };
 
 const orderNow = async (req, res, next) => {
-  const { productId, userId, count } = req.body;
+  const { user } = req;
+  const { productId, count } = req.body;
   try {
+    if (!user) throw new NotLoginError('You are not logged in');
+    if (!productId || !count) throw new WrongDataError('You must get product id and count');
+    if (count < 1 || !(Number.isInteger(count))) throw new CountError('Count value is wrong');
+
     const findBuyProduct = await Product.findOne({
       where: { id: productId },
     });
-    if (!findBuyProduct) {
-      throw new Error('Product don\'t exist');
-    }
-    if (findBuyProduct.availability < count) {
-      throw new Error(`We have only ${findBuyProduct.availability}  ${findBuyProduct.name}`);
-    }
+    if (!findBuyProduct) throw new NotFoundError('Product don\'t exist');
+    if (findBuyProduct.availability < count) throw new CountError(`We have only ${findBuyProduct.availability}  ${findBuyProduct.name}`);
+
     await saveSellProductInDB(findBuyProduct.id, count);
-    await addToOrderSystem(findBuyProduct, userId);
+    await addToOrderSystem(findBuyProduct, user.id);
     const toPaid = Number(findBuyProduct.price) * count;
 
     res.json({

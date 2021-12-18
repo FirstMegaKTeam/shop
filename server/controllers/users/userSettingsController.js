@@ -1,15 +1,25 @@
 const { hash } = require('bcrypt');
 const { User } = require('../../DB/models/index');
+const { NotLoginError, WrongDataError } = require('../../utils/errors');
+
+const getUserData = async (req, res, next) => {
+  const { user } = req;
+  try {
+    if (!user) throw new NotLoginError('You are not logged in');
+    res.json(user);
+  } catch (e) {
+    next(e);
+  }
+};
 
 const changeSettings = async (req, res, next) => {
   const {
-    id, name, lastName, age, email, password,
+    name, lastName, age, email, password,
   } = req.body;
+  const { user } = req;
   try {
-    const user = await User.findOne({ where: { id } });
-    if (!user) {
-      throw new Error('User dont exist');
-    }
+    if (!user) throw new NotLoginError('You are not logged in');
+    if (!name || !lastName || !age || !email || !password) throw new WrongDataError('You dont give any data');
 
     // user can edit only this field
     user.name = name || user.name;

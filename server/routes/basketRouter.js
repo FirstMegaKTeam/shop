@@ -4,7 +4,7 @@ const {
   addProductToBasket,
   deleteProductFromBasket,
 } = require('../controllers/users/basketController');
-// todo poprawić błąd z 1 produtketm
+
 const basketRouter = express.Router();
 
 basketRouter

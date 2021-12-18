@@ -5,7 +5,8 @@ const {
 } = require('../../utils/errors');
 
 const getAllUsers = async (req, res, next) => {
-  const { admin } = req;
+  const { user: admin } = req;
+
   try {
     if (!admin || admin.role < 1) throw new NotAdminError('You re not admin');
 
@@ -22,7 +23,7 @@ const getAllUsers = async (req, res, next) => {
 
 const getOneUserByID = async (req, res, next) => {
   const { id } = req.params;
-  const { admin } = req;
+  const { user: admin } = req;
 
   try {
     if (!admin || admin.role < 1) throw new NotAdminError('You re not admin');
@@ -42,7 +43,7 @@ const getOneUserByID = async (req, res, next) => {
 
 const getOneUserByEmail = async (req, res, next) => {
   const { email } = req.params;
-  const { admin } = req;
+  const { user: admin } = req;
 
   try {
     if (!admin || admin.role < 1) throw new NotAdminError('You re not admin');
@@ -66,7 +67,7 @@ const editUserData = async (req, res, next) => {
     newUserInfoObj,
     password,
   } = req.body;
-  const { admin } = req;
+  const { user: admin } = req;
   try {
     if (!admin || admin.role < 1) throw new NotAdminError('You re not admin');
     if (!id || !newUserInfoObj) throw new WrongDataError('You must give id and new User info');
@@ -91,7 +92,7 @@ const editUserData = async (req, res, next) => {
 };
 const deleteUser = async (req, res, next) => {
   const { id } = req.body;
-  const { admin } = req;
+  const { user: admin } = req;
 
   try {
     if (!admin || admin.role < 1) throw new NotAdminError('You re not admin');

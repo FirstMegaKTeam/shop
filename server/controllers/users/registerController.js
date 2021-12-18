@@ -3,15 +3,21 @@ const jwt = require('jsonwebtoken');
 
 const { User } = require('../../DB/models/index');
 const { sendActivateMail } = require('../../utils/sendMail');
+const { WrongDataError } = require('../../utils/errors');
 
 const registerUser = async (req, res, next) => {
   const {
-    name, lastName, age, email, password,
+    name,
+    lastName,
+    age,
+    email,
+    password,
   } = req.body;
 
   try {
-    const hashPassword = await hash(password, 10);
+    if (!name || !lastName || !age || !email || !password) throw new WrongDataError('You must give all data');
 
+    const hashPassword = await hash(password, 10);
     const publicKey = await hash((name.concat(lastName, age, email)), 10);
 
     const newUser = await User.create({

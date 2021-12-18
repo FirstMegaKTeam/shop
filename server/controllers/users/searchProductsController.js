@@ -1,14 +1,13 @@
 const { Op } = require('sequelize');
 const { Product, ProductRating } = require('../../DB/models/index');
 const { getGradeAverage, addPossibilitiesEdit } = require('../../utils/dbUtils');
+const { WrongDataError, NotFoundError } = require('../../utils/errors');
 
 const getAllProducts = async (req, res, next) => {
   try {
     const page = Number(req.params.page);
 
-    if (isNaN(page)) {
-      throw new Error('page must be a number type');
-    }
+    if (isNaN(page)) throw new WrongDataError('page must be a number type');
 
     const limit = 25;
     let offset = 0;
@@ -24,6 +23,8 @@ const getAllProducts = async (req, res, next) => {
         attributes: ['rating'],
       },
     });
+
+    if (!products || !products.length) throw new NotFoundError('Dont found any products');
 
     const productsToEdit = addPossibilitiesEdit(products);
     const productsWithRating = productsToEdit.map((oneRecord) => {
@@ -41,9 +42,8 @@ const getProductByName = async (req, res, next) => {
   const { name } = req.params;
 
   try {
-    if (!name) {
-      throw new Error('Name cant by empty');
-    }
+    if (!name) throw new WrongDataError('Name cant by empty');
+
     const productsByName = await Product.findAll({
       limit: 100,
       include: {
@@ -54,6 +54,8 @@ const getProductByName = async (req, res, next) => {
         name: { [Op.like]: `%${name}%` },
       },
     });
+
+    if (!productsByName || !productsByName.length) throw new NotFoundError('Dont found any products');
 
     const productsToEdit = addPossibilitiesEdit(productsByName);
     const productsWithRating = productsToEdit.map((oneRecord) => {
@@ -68,14 +70,12 @@ const getProductByName = async (req, res, next) => {
 };
 
 const getByPriceSmallerOrBigger = async (req, res, next) => {
-  try {
-    const { price, biggerOrSmaller } = req.params;
-    const PriceToNumber = Number(price);
-    console.log({ price, biggerOrSmaller });
+  const { price, biggerOrSmaller } = req.params;
 
-    if (isNaN(PriceToNumber)) {
-      throw new Error('Invalid price');
-    }
+  try {
+    if (!price || !biggerOrSmaller) throw new WrongDataError('You must give price and chose parameter');
+    const PriceToNumber = Number(price);
+    if (isNaN(PriceToNumber)) throw new WrongDataError('Invalid price');
 
     if (biggerOrSmaller === 'bigger') {
       const productsMoreExpensive = await Product.findAll({
@@ -88,7 +88,10 @@ const getByPriceSmallerOrBigger = async (req, res, next) => {
             [Op.gte]: PriceToNumber,
           },
         },
+
       });
+
+      if (!productsMoreExpensive || !productsMoreExpensive.length) throw new NotFoundError('Dont found any products');
 
       const productsToEdit = addPossibilitiesEdit(productsMoreExpensive);
       const productsWithRating = productsToEdit.map((oneRecord) => {
@@ -112,6 +115,8 @@ const getByPriceSmallerOrBigger = async (req, res, next) => {
         },
       });
 
+      if (!productsCheaper || !productsCheaper.length) throw new NotFoundError('Dont found any products');
+
       const productsToEdit = addPossibilitiesEdit(productsCheaper);
       const productsWithRating = productsToEdit.map((oneRecord) => {
         oneRecord.ProductRatings = getGradeAverage(oneRecord.ProductRatings);
@@ -121,7 +126,7 @@ const getByPriceSmallerOrBigger = async (req, res, next) => {
       res.json(productsWithRating);
       return;
     }
-    throw new Error('Your params is wrong');
+    throw new WrongDataError('Your params is wrong');
   } catch (e) {
     next(e);
   }
@@ -130,13 +135,14 @@ const getByPriceSmallerOrBigger = async (req, res, next) => {
 const getProductByPriceBetween = async (req, res, next) => {
   const { greaterThan, lessThan } = req.params;
 
-  const minPrice = Number(greaterThan);
-  const maxPrice = Number(lessThan);
-
   try {
-    if (Number.isNaN(maxPrice) || Number.isNaN(minPrice)) {
-      throw new Error('Both arguments must be a number');
-    }
+    if (!greaterThan || !lessThan) throw new WrongDataError('You must give both value');
+
+    const minPrice = Number(greaterThan);
+    const maxPrice = Number(lessThan);
+
+    if (Number.isNaN(maxPrice) || Number.isNaN(minPrice)) throw new WrongDataError('Both arguments must be a number');
+    if (maxPrice < 0 || minPrice < 0) throw new WrongDataError('Both value must be positive');
 
     const betweenQuery = [minPrice, maxPrice];
 
@@ -155,6 +161,8 @@ const getProductByPriceBetween = async (req, res, next) => {
         },
       },
     });
+
+    if (!productsBetween || !productsBetween.length) throw new NotFoundError('Dont found any products');
 
     const productsToEdit = addPossibilitiesEdit(productsBetween);
     const productsWithRating = productsToEdit.map((oneRecord) => {

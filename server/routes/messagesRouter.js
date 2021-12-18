@@ -11,8 +11,8 @@ const {
 const messageRouter = express.Router();
 
 messageRouter
-  .get('/:userId', getAllUserMessage)
-  .get('/:shippedOrReceived/:userId', getSentOrReceivedUserMessage)
+  .get('/', getAllUserMessage)
+  .get('/:shippedOrReceived/', getSentOrReceivedUserMessage)
   .get('/one/:messageId', getOneMessage)
   .post('/', sendMessage)
   .delete('/', deleteMessage);

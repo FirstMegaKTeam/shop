@@ -10,7 +10,7 @@ const {
 const addressRouter = express.Router();
 
 addressRouter
-  .get('/:userId', getAllUserAddress)
+  .get('/', getAllUserAddress)
   .post('/', addNewUserAddress)
   .patch('/', editUserAddress)
   .delete('/', deleteUserAddress);
