@@ -1,8 +1,9 @@
 const { Address } = require('../../DB/models/index');
 
 const getAllUserAddress = async (req, res, next) => {
+  const { userId } = req.params;
+
   try {
-    const { userId } = req.params;
 
     const allUserAddress = await Address.findAll({
       where: { userId },

@@ -5,11 +5,9 @@ const express = require('express');
 const loginController = require('./controllers/access/checkLoginDataController');
 const accessUser = require('./controllers/access/accessUserController');
 const accessAdmin = require('./controllers/access/accessAdminController');
-const accessHeadAdmin = require('./controllers/access/accessHeadAdminController');
 // const confirmEmailAuthenticate = require('./controllers/access/accessByQueryParamsToken');
 
 // Head admin routes
-const { headAdminRouter } = require('./routes/headAdmin/userAndAdminManageRouter');
 
 // Admin routes
 const { manageProductRouter } = require('./routes/admin/manageProductRouter');
@@ -40,11 +38,8 @@ const app = express.Router();
 
 // Middleware
 
-// Head admin
-app.use('/head/admin/manage', headAdminRouter);
-
 // Admin
-app.use('/admin/users', accessHeadAdmin, manageUsersRouter);
+app.use('/admin/users', accessAdmin, manageUsersRouter);
 app.use('/admin/orders', manageOrdersRouter);
 app.use('/admin/', manageProductRouter);
 

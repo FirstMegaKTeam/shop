@@ -6,6 +6,13 @@ const passportJWT = require('passport-jwt');
 
 // import
 const { User } = require('../../DB/models/index');
+const {
+  WrongEmailError,
+  AccountActivationError,
+  WrongPasswordError,
+  WrongPublicKeyError,
+  NotAdminError,
+} = require('../../utils/errors');
 
 // variable
 const JWTStrategy = passportJWT.Strategy;
@@ -30,15 +37,15 @@ passport.use('login', new LocalStrategy({ usernameField: 'email', session: false
     const findUser = await User.findOne({ where: { email: name } });
 
     if (!findUser) {
-      throw new Error('Email is wrong');
+      throw new WrongEmailError('Your Email is wrong');
     }
     if (!findUser.activate) {
-      throw new Error('Your account isn\'t active');
+      throw new AccountActivationError('Your account isn\'t active');
     }
 
     const passwordMatch = await compare(password, findUser.password);
     if (!passwordMatch) {
-      throw new Error('Wrong password');
+      throw new WrongPasswordError('Wrong password');
     }
     return done(null, findUser);
   } catch (e) {
@@ -56,7 +63,7 @@ async function verifyUser(payload, done) {
       payload.publicKey,
     );
     if (!keyMatch) {
-      throw new Error('Wrong public key');
+      throw new WrongPublicKeyError('Wrong public key');
     }
 
     done(null, user);
@@ -71,19 +78,19 @@ passport.use('userAccess', new JWTStrategy(configJWTStrategy, verifyUser));
 
 async function verifyAdmin(payload, done) {
   try {
-    const user = await User.findOne(({ where: { id: payload.id } }));
+    const admin = await User.findOne(({ where: { id: payload.id } }));
 
     const keyMatch = await compare(
-      user.name.concat(user.lastName, user.age, user.email),
+      admin.name.concat(admin.lastName, admin.age, admin.email),
       payload.publicKey,
     );
     if (!keyMatch) {
-      throw new Error('Wrong public key');
+      throw new WrongPublicKeyError('Wrong public key');
     }
-    if (user.role === 1 || user.role === 2) {
-      done(null, user);
+    if (admin.role === 1 || admin.role === 2) {
+      done(null, admin);
     } else {
-      throw new Error('You not Admin');
+      throw new NotAdminError('You not Admin');
     }
   } catch (er) {
     done(er);
@@ -91,32 +98,6 @@ async function verifyAdmin(payload, done) {
 }
 
 passport.use('adminAccess', new JWTStrategy(configJWTStrategy, verifyAdmin));
-
-//
-
-async function verifyHeadAdmin(payload, done) {
-  try {
-    const user = await User.findOne(({ where: { id: payload.id } }));
-
-    const keyMatch = await compare(
-      user.name.concat(user.lastName, user.age, user.email),
-      payload.publicKey,
-    );
-    if (!keyMatch) {
-      throw new Error('Wrong public key');
-    }
-
-    if (user.role === 2) {
-      done(null, user);
-    } else {
-      throw new Error('You not Head Admin');
-    }
-  } catch (er) {
-    done(er);
-  }
-}
-
-passport.use('headAdminAccess', new JWTStrategy(configJWTStrategy, verifyHeadAdmin));
 
 async function accountActivation(payload, done) {
   try {
@@ -126,7 +107,7 @@ async function accountActivation(payload, done) {
       payload.publicKey,
     );
     if (!keyMatch) {
-      throw new Error('Wrong public key');
+      throw new WrongPublicKeyError('Wrong public key');
     }
     done(null, user);
   } catch (er) {
@@ -136,8 +117,6 @@ async function accountActivation(payload, done) {
 
 passport.use('checkTokenInQuery', new JWTStrategy(configJWTStrategyCheckEmail, accountActivation));
 
-
-
 async function resetPassword(payload, done) {
   try {
     const user = await User.findOne(({ where: { id: payload.id } }));
@@ -146,7 +125,7 @@ async function resetPassword(payload, done) {
       payload.publicKey,
     );
     if (!keyMatch) {
-      throw new Error('Wrong public key');
+      throw new WrongPublicKeyError('Wrong public key');
     }
     done(null, user);
   } catch (er) {
