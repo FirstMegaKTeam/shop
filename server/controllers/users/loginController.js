@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const { NotFoundError, NotLoginError} = require('../../utils/errors');
+const { NotFoundError, NotLoginError } = require('../../utils/errors');
 
 const loginUser = async (req, res, next) => {
   const { user } = req;

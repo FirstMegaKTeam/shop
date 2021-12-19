@@ -1,5 +1,3 @@
-
-
 const { hash } = require('bcrypt');
 const { User } = require('../../DB/models/index');
 const {

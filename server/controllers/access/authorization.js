@@ -97,7 +97,7 @@ async function verifyAdmin(payload, done) {
   }
 }
 
-passport.use('adminAccess', new JWTStrategy(configJWTStrategy,  verifyAdmin));
+passport.use('adminAccess', new JWTStrategy(configJWTStrategy, verifyAdmin));
 
 async function accountActivation(payload, done) {
   try {
