@@ -9,6 +9,7 @@ class WrongDataError extends Error {}
 class NotFoundError extends Error {}
 class EmptyBasketError extends Error {}
 class CountError extends Error {}
+class EmptyTokenError extends Error {}
 
 module.exports = {
   NotLoginError,
@@ -21,6 +22,6 @@ module.exports = {
   WrongDataError,
   NotFoundError,
   EmptyBasketError,
-  CountError
-
+  CountError,
+  EmptyTokenError,
 };
