@@ -1,6 +1,51 @@
 .App {
   text-align: center;
+  display: grid;
+  grid-template-areas:
+  "header"
+  "menu"
+  "items"
+  "aside";
+  width: 100%;
+  height: 100%;
 }
+
+.header{
+  grid-area: header;
+  width:100vw;
+  height: 15vh;
+  background-color: blueviolet;
+  display: flex;
+}
+
+.menu{
+  grid-area: menu;
+  width: 100vw;
+  height: 10vh;
+  background-color: grey;
+
+}
+
+.items{
+  grid-area: items;
+  width: 100vw;
+  height: 70vh;
+  background-color: white;
+}
+
+.aside{
+  width: 100vw;
+  height: 5vh;
+  background-color: aqua;
+}
+
+.aside{
+  grid-area: aside;
+
+}
+
+
+
 
 .App-logo {
   height: 40vmin;

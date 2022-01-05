@@ -1,0 +1,29 @@
+.login {
+    width: 100vw;
+    height: 70vh;
+    background: orangered;
+}
+
+.formLog {
+    position: absolute;
+    top: 45%;
+    left: 40%;
+}
+
+.labelLog {
+    display: inline-block;
+    width: 200px;
+    height: 200px;
+    padding: 10px;
+}
+
+.logowanie{
+
+    width: 200px;
+    height: 20px;
+}
+
+label{
+    font-size: 20px;
+}
+

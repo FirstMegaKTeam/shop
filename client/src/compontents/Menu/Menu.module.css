@@ -1,0 +1,28 @@
+ul li{
+    list-style:none;
+    display: inline-block;
+    width: 200px;
+    height: 100%;
+
+
+
+}
+
+li a {
+    text-decoration: none;
+    margin: 0 40px;
+    line-height: 5vh;
+    text-align: center;
+    font-size: 20px;
+
+
+}
+
+.search {
+    position: absolute;
+    top: 7vh;
+    right: 3%;
+    width: 40px;
+
+
+}
