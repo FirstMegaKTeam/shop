@@ -1,43 +1,65 @@
-// dependenciss
-const dotenv = require('dotenv');
-dotenv.config({ path: '.env' });
-const express = require('express')
+const express = require('express');
+// TODO change controllers mand get user id from req.user(on authenticate routes)
 
+// Access controller
+const loginController = require('./controllers/access/checkLoginDataController');
+const accessUser = require('./controllers/access/accessUserController');
+const accessAdmin = require('./controllers/access/accessAdminController');
+// const confirmEmailAuthenticate = require('./controllers/access/accessByQueryParamsToken');
 
-// require routes
-const  { usersManagementRouter} = require('./routes/admin/usersManagement');
-const  { productManagementRouter} = require('./routes/admin/productManagement');
-const  { loginRouter } = require('./routes/login');
-const  { registerRouter} = require('./routes/register');
-const  { homeRouter} = require('./routes/home');
-const  { buyRouter} = require('./routes/buy');
-const  { productsRouter} = require('./routes/products');
-const  { purchaseHistoryRouter} = require('./routes/purchaseHistory');
-const  { messageRouter} = require('./routes/messages');
-const  { ratingRouter} = require('./routes/ratingProducts');
-const  { userSettingsRouter} = require('./routes/userSettings');
-const  { logoutRouter} = require('./routes/loguot');
+// Head admin routes
 
-// requires
+// Admin routes
+const { manageProductRouter } = require('./routes/admin/manageProductRouter');
+const { manageOrdersRouter } = require('./routes/admin/manageOrdersRouter');
+const { manageUsersRouter } = require('./routes/admin/manageUsersRouter');
 
+//  Register/login/logout/confirm email/ reset password routes
+const { registerRouter } = require('./routes/registerRouter');
+const { confirmEmailRouter } = require('./routes/confirmEmailRouter');
+const { loginRouter } = require('./routes/loginRouter');
+const { logoutRouter } = require('./routes/loguotRouter');
+const { resetPasswordRouter } = require('./routes/resetPasswordRouter');
 
+// User settings routes
+const { userSettingsRouter } = require('./routes/userSettingsRouter');
+const { addressRouter } = require('./routes/addsressRouter');
 
+// Shopping routes
+const { productsRouter } = require('./routes/searchProductsRouter');
+const { basketRouter } = require('./routes/basketRouter');
+const { orderRouter } = require('./routes/orderRouter');
+const { ratingRouter } = require('./routes/ratingRouter');
 
-// different variable
-const app = express()
-const port = process.env.PORT || 5000;
+// Massage routes
+const { messageRouter } = require('./routes/messagesRouter');
 
-
+const app = express.Router();
 
 // Middleware
-app.use(express.json())
+// Admin
+app.use('/admin/users', accessAdmin, manageUsersRouter);
+app.use('/admin/orders', accessAdmin, manageOrdersRouter);
+app.use('/admin/products', accessAdmin, manageProductRouter);
 
+// Register Login Logout Confirm emil reset password
+app.use('/register', registerRouter);
+app.use('/confirm', confirmEmailRouter);
+app.use('/login', loginController, loginRouter);
+app.use('/logout', logoutRouter);
+app.use('/reset', resetPasswordRouter);
 
-// routes
-app.use('/', buyRouter)
+// User settings
+app.use('/user/settings', accessUser, userSettingsRouter);
+app.use('/address', accessUser, addressRouter);
 
+// Shop
+app.use('/products', productsRouter);
+app.use('/message', accessUser, messageRouter);
+app.use('/basket', accessUser, basketRouter);
+app.use('/order', accessUser, orderRouter);
+app.use('/rating', accessUser, ratingRouter);
 
-
-app.listen(port, 'localhost', ()=> {
-    console.log(`Server listen on http://localhost:${port}`)
-})
+module.exports = {
+  app,
+};

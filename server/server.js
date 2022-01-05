@@ -6,7 +6,7 @@ const cookieParser = require('cookie-parser');
 const { sequelize } = require('./DB/models/index');
 
 // require routes
-const { app } = require('./app.');
+const { app } = require('./app');
 
 // Authorization require
 const { passport } = require('./controllers/access/authorization');

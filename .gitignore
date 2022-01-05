@@ -1,5 +1,5 @@
 server/node_modules
-.eslintrc
+server/.eslintrc
 client/node_modules
 
 
