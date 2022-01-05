@@ -34,13 +34,13 @@ server.use(handleError);
 server.listen(port, 'localhost', async () => {
   console.log(`Server listen on http://localhost:${port}`);
   // connect with database
-  await sequelize.authenticate();
+  // await sequelize.authenticate();
   console.log('Connect with DB');
 });
 async function main() {
   await sequelize.sync({ force: true });
 }
 // Create/Reset Data base
-// main();
+main();
 
 
