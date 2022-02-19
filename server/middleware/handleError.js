@@ -37,10 +37,13 @@ async function handleError(er, req, res, next) {
     || er instanceof NotFoundError) {
     answer.status = 404;
     answer.message = er.message;
+  } else if (er.parent && er.parent.errno === 1062){
+    answer.status = 404
+    answer.message = 'This email is already associated with an account on our website'
   }
 
   res.status(answer.status);
-  console.log(er);
+  // console.log(er);
   res.json(answer);
 }
 
